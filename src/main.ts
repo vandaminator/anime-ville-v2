@@ -1,10 +1,10 @@
 import './style.css'
 
-document.querySelector("#app")!.innerHTML = `
+// document.querySelector("#app")!.innerHTML = `
 
-<h1> Anime-Ville </h1
+// <h1> Anime-Ville </h1
 
-`
+// `
 
 async function stuff () {
   try {
