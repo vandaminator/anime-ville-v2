@@ -33,6 +33,30 @@ interface releaseInfo extends genericApi_Info  {
     results: release_item[]
 }
 
+
+
+interface episodeItem {
+    id: string,
+    number: number,
+    url: string
+}
+
+interface animeInfo extends genericApi_Item {
+  id: string,
+  title: string,
+  url: string,
+  image: string,
+  releaseDate: string, // or null
+  description: string, // or null
+  genres: string[],
+  subOrDub: "sub" | 'dub',
+  type: string, // or null
+  status: string,
+  otherName: string, // or null
+  totalEpisodes: number,
+  episodes: episodeItem[]
+}
+
 class Gogoanime {
 
     async searchAnime(name:string, page:number = 1): Promise<search_info> {
@@ -40,12 +64,12 @@ class Gogoanime {
         return response.json()
     }
 
-    async getRecentEpisosdes(page: number = 1): Promise<object> {
+    async getRecentEpisosdes(page: number = 1): Promise<releaseInfo> {
         const response = await fetch(`https://api.consumet.org/anime/gogoanime/recent-episodes?page=${page}`)
         return response.json()
     }
 
-    async getAnimeInfo (animeId: string) : Promise<object> {
+    async getAnimeInfo (animeId: string) : Promise<animeInfo> {
         const response = await fetch(`https://api.consumet.org/anime/gogoanime/info/${animeId}`)
         return response.json()
     }
