@@ -1,33 +1,33 @@
 interface genericinfo {
-    animeTitle: string
-    animeImg: string
+  animeTitle: string;
+  animeImg: string;
 }
 
-interface newEpisode extends genericinfo {
-    animeEp: number
-    animeUrl: string
+export interface newEpisode extends genericinfo {
+  animeEp: number;
+  animeUrl: string;
 }
 
-interface searchAnimeitem extends genericinfo {
-    animeId: string
+export interface searchAnimeitem extends genericinfo {
+  animeId: string;
 }
 
-interface episodeItem {
-    url: string
-    number: number
+export interface episodeItem {
+  url: string;
+  number: number;
 }
 
-interface animeData extends genericinfo {
-    description: string
-    type: string
-    releaseDate: string
-    status: string
-    otherName: string
-    totalEpisodes: number
+export interface animeData extends genericinfo {
+  description: string;
+  type: string;
+  releaseDate: string;
+  status: string;
+  otherName: string;
+  totalEpisodes: number;
 }
 
-
-export function searchBar () : string {
+export class Pages {
+  searchBar(): string {
     return `
 
     <div id="search-bar" >
@@ -36,21 +36,23 @@ export function searchBar () : string {
     </div>
 
     `;
-}
+  }
 
-export function releaseComponet () : string {
+  releaseComponet(htmltextItems: string): string {
     return `
 
     <section class="new-release">
         <h1>New Release</h1>
-        <div class="new-anime"></div>
+        <div class="new-anime">
+            ${htmltextItems}
+        </div>
         <button id="more-release-btn" >More</button>
     </section>
 
     `;
-} 
+  }
 
-export function releaseItem (newData: newEpisode) : string {
+  releaseItem(newData: newEpisode): string {
     return `
     <div class="search-item">
         <div class="search-item-content">
@@ -60,10 +62,10 @@ export function releaseItem (newData: newEpisode) : string {
             <h3 class="anime-title">${newData.animeTitle}-${newData.animeEp}</h3>
         </a>
     </div>
-    `
-}
+    `;
+  }
 
-export function searchResults () : string {
+  searchResults(): string {
     return `
 
     <section class="search-results">
@@ -73,9 +75,9 @@ export function searchResults () : string {
     </section>
 
     `;
-}
+  }
 
-export function searchItem (Data: searchAnimeitem) : string {
+  searchItem(Data: searchAnimeitem): string {
     return `
     <div class="search-item" onclick="console.log("${Data.animeId}") >
         <div class="search-item-content">
@@ -83,10 +85,10 @@ export function searchItem (Data: searchAnimeitem) : string {
         </div>
         <h3 class="anime-title">${Data.animeTitle}</h3>
     </div>
-    `
-}
+    `;
+  }
 
-export function animeDetails(Data: animeData): string {
+  animeDetails(Data: animeData): string {
     return `
     <section class="anime-details" >
         <h2>${Data.animeTitle}</h2>
@@ -102,17 +104,18 @@ export function animeDetails(Data: animeData): string {
         <p class="synopsis">${Data.description}</p>
         <div class="episodes"></div>
     </section>
-    `
-}
+    `;
+  }
 
-export function setGenre (name: string) : string {
-    return `<div class="genre-item" > ${name} </div> `
-}
+  setGenre(name: string): string {
+    return `<div class="genre-item" > ${name} </div> `;
+  }
 
-export function setEpisode (data: episodeItem): string {
+  setEpisode(data: episodeItem): string {
     return `
     <div class="ep-item" >
         <a href="${data.url} > ${data.number} </a>
     </div>
-    `
+    `;
+  }
 }
