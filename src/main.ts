@@ -1,4 +1,5 @@
 import './style.css'
+import { gogoanime } from './api/provider';
 
 // document.querySelector("#app")!.innerHTML = `
 
@@ -23,5 +24,10 @@ async function stuff () {
 }
 
 stuff()
+
+const anime = new gogoanime()
+
+anime.searchAnime("naruto")
+  .then(info => console.log(info))
 
 
