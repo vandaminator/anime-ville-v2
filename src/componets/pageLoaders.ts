@@ -53,7 +53,7 @@ class PageSetter {
 
     async setSearchResults () {
         const newEpisodes = await this.animeResults()
-        const page = this.pages.releaseComponet(newEpisodes)
+        const page = this.pages.searchResults(newEpisodes)
         this.app.innerHTML = page
     }
 
