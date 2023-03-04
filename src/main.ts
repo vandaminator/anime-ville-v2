@@ -1,33 +1,14 @@
 import './style.css'
-import { Gogoanime } from './api/provider';
+import { PageSetter } from './componets/pageLoaders'
 
 // document.querySelector("#app")!.innerHTML = `
 
 // <h1> Anime-Ville </h1
 
 // `
+const APP: HTMLDivElement = document.querySelector("#app")!
+const SEARCH: HTMLInputElement = document.querySelector("#search-input")!
 
-async function stuff () {
-  try {
-    const response = await fetch("https://api.consumet.org/anime/gogoanime/recent-episodes?page=2", {
-      method: 'GET',
-      headers: {}
-    });
+const setter = new PageSetter(APP, SEARCH)
 
-    if (response.ok) {
-      const result = await response.json();
-      console.log(result);
-    }
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-stuff()
-
-const anime = new Gogoanime()
-
-anime.searchAnime("naruto")
-  .then(info => console.log(info))
-
-
+setter.setRelease()

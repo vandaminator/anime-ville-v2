@@ -41,12 +41,14 @@ export class Pages {
     `;
   }
 
-  searchResults(): string {
+  searchResults(htmlText: string): string {
     return `
 
     <section class="search-results">
         <h1>Results</h1>
-        <div class="anime-results"></div>
+        <div id="anime-results">
+          ${htmlText}
+        </div>
         <button id="more-search-btn" >More</button>
     </section>
 

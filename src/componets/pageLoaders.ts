@@ -37,7 +37,30 @@ class PageSetter {
         NEW_ANIME_CONTAINER.innerHTML += await this.newEpisodes(page)
     }
 
+    private async animeResults (page: number = 1) {
+        const input = this.search_bar.value
+        const data = await this.provider.searchAnime(input, page);
+        const animeSearchResults = data.results
+        let htmlText: string = ``;
+        for (let i = 0; i < animeSearchResults.length; i++) {
+            let anime = animeSearchResults[i];
 
+            htmlText += this.pages.searchItem(anime);
+        }
+        return htmlText
+        
+    }
+
+    async setSearchResults () {
+        const newEpisodes = await this.animeResults()
+        const page = this.pages.releaseComponet(newEpisodes)
+        this.app.innerHTML = page
+    }
+
+    async moreSearchResults (page: number = 2) {
+        const ANIME_RESULTS_CONTAINER = document.querySelector("#anime-results")!
+        ANIME_RESULTS_CONTAINER.innerHTML += await this.animeResults(page)
+    }
 }
 
 export { PageSetter }
