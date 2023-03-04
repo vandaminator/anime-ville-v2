@@ -1,30 +1,6 @@
-interface genericinfo {
-  animeTitle: string;
-  animeImg: string;
-}
+import { animeInfo, episodeItem, release_item, result_item } from "../api/api_types";
 
-export interface newEpisode extends genericinfo {
-  animeEp: number;
-  animeUrl: string;
-}
 
-export interface searchAnimeitem extends genericinfo {
-  animeId: string;
-}
-
-export interface episodeItem {
-  url: string;
-  number: number;
-}
-
-export interface animeData extends genericinfo {
-  description: string;
-  type: string;
-  releaseDate: string;
-  status: string;
-  otherName: string;
-  totalEpisodes: number;
-}
 
 export class Pages {
   searchBar(): string {
@@ -43,7 +19,7 @@ export class Pages {
 
     <section class="new-release">
         <h1>New Release</h1>
-        <div class="new-anime">
+        <div id="new-anime">
             ${htmltextItems}
         </div>
         <button id="more-release-btn" >More</button>
@@ -52,14 +28,14 @@ export class Pages {
     `;
   }
 
-  releaseItem(newData: newEpisode): string {
+  releaseItem(newData: release_item): string {
     return `
     <div class="search-item">
         <div class="search-item-content">
-            <img src="${newData.animeImg}" alt="image" width="150" >
+            <img src="${newData.image}" alt="image" width="150" >
         </div>
-        <a href="${newData.animeUrl} >
-            <h3 class="anime-title">${newData.animeTitle}-${newData.animeEp}</h3>
+        <a href="${newData.url} >
+            <h3 class="anime-title">${newData.title}-${newData.episodeNumber}</h3>
         </a>
     </div>
     `;
@@ -77,23 +53,23 @@ export class Pages {
     `;
   }
 
-  searchItem(Data: searchAnimeitem): string {
+  searchItem(Data: result_item): string {
     return `
-    <div class="search-item" onclick="console.log("${Data.animeId}") >
+    <div class="search-item" onclick="console.log("${Data.id}") >
         <div class="search-item-content">
-            <img src="${Data.animeImg}" alt="image" width="150" >
+            <img src="${Data.image}" alt="image" width="150" >
         </div>
-        <h3 class="anime-title">${Data.animeTitle}</h3>
+        <h3 class="anime-title">${Data.title}</h3>
     </div>
     `;
   }
 
-  animeDetails(Data: animeData): string {
+  animeDetails(Data: animeInfo): string {
     return `
     <section class="anime-details" >
-        <h2>${Data.animeTitle}</h2>
+        <h2>${Data.title}</h2>
         <div class="anime-image" >
-            <img src="${Data.animeImg}" alt="" >
+            <img src="${Data.image}" alt="" >
         </div>
         <p class="info">Other names: ${Data.otherName}</p>
         <p class="info">Type: ${Data.type}</p>
