@@ -18,6 +18,7 @@ export class Pages {
     return `
 
     <section class="new-release">
+    <input type="hidden" name="page-count" id="page-count" value="1" >
         <h1>New Release</h1>
         <div id="new-anime">
             ${htmltextItems}
@@ -34,7 +35,7 @@ export class Pages {
         <div class="search-item-content">
             <img src="${newData.image}" alt="image" width="150" >
         </div>
-        <a href="${newData.url} >
+        <a href="${newData.url}" >
             <h3 class="anime-title">${newData.title}-${newData.episodeNumber}</h3>
         </a>
     </div>
@@ -45,6 +46,7 @@ export class Pages {
     return `
 
     <section class="search-results">
+    <input type="hidden" name="page-count" id="page-count" value="1" >
         <h1>Results</h1>
         <div id="anime-results">
           ${htmlText}

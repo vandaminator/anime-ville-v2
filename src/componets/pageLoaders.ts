@@ -13,8 +13,9 @@ class PageSetter {
     ) {}
 
     // generate text for all the epsodes
-    private async newEpisodes (page: number = 1): Promise<string> {
+    private async newEpisodes (page: number = 1): Promise<[string, boolean]> {
         const data = await this.provider.getRecentEpisosdes(page);
+        const hasNext = data.hasNextPage
         const EpisodeItems = data.results
         let htmlText: string = ``;
         for (let i = 0; i < EpisodeItems.length; i++) {
@@ -22,24 +23,46 @@ class PageSetter {
 
             htmlText += this.pages.releaseItem(episode);
         }
-        return htmlText
+        return [htmlText ,hasNext]
         
+    }
+
+    checkDisableBtn (hasNext: boolean, buttonId: string) {
+        if (!hasNext) {
+            const button: HTMLButtonElement = document.querySelector(`#${buttonId}`)!
+            button.disabled = true;
+        }
     }
 
     async setRelease (): Promise<void> {
         const newEpisodes = await this.newEpisodes()
-        const page = this.pages.releaseComponet(newEpisodes)
+        const htmlText: string = newEpisodes[0];
+        const hasNext = newEpisodes[1];
+        
+        const page = this.pages.releaseComponet(htmlText)
         this.app.innerHTML = page
+        document.getElementById("more-release-btn")!.addEventListener("click", () => {
+            this.moreRelease()
+        })
+        this.checkDisableBtn(hasNext, 'more-release-btn')
     }
 
-    async moreRelease (page = 2): Promise<void> {
+    async moreRelease (): Promise<void> {
         const NEW_ANIME_CONTAINER = document.querySelector("#new-anime")!
-        NEW_ANIME_CONTAINER.innerHTML += await this.newEpisodes(page)
+        const pageCountInputElement: HTMLInputElement  = document.querySelector("#page-count")!
+        const number = parseInt(pageCountInputElement.value) + 1
+        pageCountInputElement.value = number.toString()
+        const newEpisodes = await this.newEpisodes(number)
+        const htmlText: string = newEpisodes[0];
+        const hasNext = newEpisodes[1];
+        NEW_ANIME_CONTAINER.innerHTML += htmlText
+        this.checkDisableBtn(hasNext, 'more-release-btn')
     }
 
-    private async animeResults (page: number = 1) : Promise<string> {
+    private async animeResults (page: number = 1) : Promise<[string, boolean]> {
         const input = this.search_bar.value
         const data = await this.provider.searchAnime(input, page);
+        const hasNext = data.hasNextPage
         const animeSearchResults = data.results
         let htmlText: string = ``;
         for (let i = 0; i < animeSearchResults.length; i++) {
@@ -47,14 +70,11 @@ class PageSetter {
 
             htmlText += this.pages.searchItem(anime);
         }
-        return htmlText
+        return [htmlText, hasNext]
         
     }
 
-    async setSearchResults (): Promise<void> {
-        const newEpisodes = await this.animeResults()
-        const page = this.pages.searchResults(newEpisodes)
-        this.app.innerHTML = page
+    makeFunctionAnimeInfo() {
         const items =  document.querySelectorAll(".search-item")
         items.forEach(searchItem => {
             const a = searchItem.attributes
@@ -67,9 +87,32 @@ class PageSetter {
         })
     }
 
-    async moreSearchResults (page: number = 2): Promise<void> {
+    async setSearchResults (): Promise<void> {
+        const newEpisodes = await this.animeResults()
+        const htmlText: string = newEpisodes[0];
+        const hasNext = newEpisodes[1];
+        const page = this.pages.searchResults(htmlText)
+        
+        this.app.innerHTML = page
+        this.makeFunctionAnimeInfo()
+        document.getElementById("more-search-btn")!.addEventListener("click", () => {
+            this.moreSearchResults()
+        })
+        this.checkDisableBtn(hasNext, 'more-search-btn')
+        
+    }
+
+    async moreSearchResults (): Promise<void> {
         const ANIME_RESULTS_CONTAINER = document.querySelector("#anime-results")!
-        ANIME_RESULTS_CONTAINER.innerHTML += await this.animeResults(page)
+        const pageCountInputElement: HTMLInputElement  = document.querySelector("#page-count")!
+        const number = parseInt(pageCountInputElement.value) + 1
+        pageCountInputElement.value = number.toString()
+        const newEpisodes = await this.animeResults(number)
+        const htmlText: string = newEpisodes[0];
+        const hasNext = newEpisodes[1];
+        ANIME_RESULTS_CONTAINER.innerHTML += htmlText
+        this.makeFunctionAnimeInfo()
+        this.checkDisableBtn(hasNext, "more-search-btn")
     }
 
     async genresResult (animeId: string): Promise<string> {
