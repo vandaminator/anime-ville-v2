@@ -12,3 +12,15 @@ const SEARCH: HTMLInputElement = document.querySelector("#search-input")!
 const setter = new PageSetter(APP, SEARCH)
 
 setter.setRelease()
+
+document.getElementById("search-btn")!.addEventListener("click", () => {
+  setter.setSearchResults()
+})
+
+document.getElementById("home")!.addEventListener("click", () => {
+  setter.setRelease()
+})
+
+
+
+

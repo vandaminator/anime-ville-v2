@@ -57,16 +57,16 @@ export class Pages {
 
   searchItem(Data: result_item): string {
     return `
-    <div class="search-item" onclick="console.log("${Data.id}") >
-        <div class="search-item-content">
-            <img src="${Data.image}" alt="image" width="150" >
-        </div>
-        <h3 class="anime-title">${Data.title}</h3>
+    <div class="search-item" data-="${Data.id}" >
+    <h3 class="anime-title">${Data.title}</h3>
+      <div class="search-item-content">
+        <img src="${Data.image}" alt="image" width="150" >
+      </div>
     </div>
     `;
   }
 
-  animeDetails(Data: animeInfo): string {
+  animeDetails(Data: animeInfo, genreHtmlText: string, episodeHtmlText: string): string {
     return `
     <section class="anime-details" >
         <h2>${Data.title}</h2>
@@ -78,9 +78,13 @@ export class Pages {
         <p class="info">Released date: ${Data.releaseDate}</p>
         <p class="info">Status: ${Data.status}</p>
         <p class="info">Total Episodes: ${Data.totalEpisodes}</p>
-        <div class="genres"></div>
+        <div class="genres">
+          ${genreHtmlText}
+        </div>
         <p class="synopsis">${Data.description}</p>
-        <div class="episodes"></div>
+        <div class="episodes">
+          ${episodeHtmlText}
+        </div>
     </section>
     `;
   }
@@ -92,7 +96,7 @@ export class Pages {
   setEpisode(data: episodeItem): string {
     return `
     <div class="ep-item" >
-        <a href="${data.url} > ${data.number} </a>
+        <a href="${data.url}" > ${data.number} </a>
     </div>
     `;
   }
